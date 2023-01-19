@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.Data.SqlClient;   // Подключаем ADO для MS SQL Server (не забыть NuGet)
+using System.IO;
 
 namespace Sales
 {
@@ -47,7 +48,14 @@ namespace Sales
                 this.Close();
             }
             ShowDepartmentsCount();
+            ShowManagersCount();
+            ShowProductsCount();
+            ShowSalesCount();
+
+            ShowDailyStatistics();
         }
+
+        #region Show Monitor
 
         /// <summary>
         /// Выводит в таблицу-монитор количество отделов (департаментов) из БД
@@ -64,5 +72,69 @@ namespace Sales
                     cmd.ExecuteScalar()   // выполняет команду и возвращает "верхний-левый" результат
                 );
         }
+
+        /// <summary>
+        /// Выводит в таблицу-монитор количество Товаров из БД
+        /// </summary>
+        private void ShowProductsCount()
+        {
+            String sql = "SELECT COUNT(*) FROM Products";
+            using var cmd = new SqlCommand(sql, _connection);
+            MonitorProducts.Content = Convert.ToString( cmd.ExecuteScalar() );
+        }
+
+        /// <summary>
+        /// Выводит в таблицу-монитор количество Сотрудников (Менеджеров) из БД
+        /// </summary>
+        private void ShowManagersCount()
+        {
+            using SqlCommand cmd = new("SELECT COUNT(*) FROM Managers", _connection);
+            MonitorManagers.Content = Convert.ToString(cmd.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Выводит в таблицу-монитор количество Продаж (чеков) из БД
+        /// </summary>
+        private void ShowSalesCount()
+        {
+            using SqlCommand cmd = new("SELECT COUNT(*) FROM Sales", _connection);
+            MonitorSales.Content = Convert.ToString(cmd.ExecuteScalar());
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Заполняет блок "Статистика за день"
+        /// </summary>
+        private void ShowDailyStatistics()
+        {
+            SqlCommand cmd = new()
+            {
+                Connection = _connection
+            };
+            // В БД информация за 2022 год, поэтому формируем дату с текущим днем и месяцем, но за 2022 год
+            String date = $"2022-{DateTime.Now.Month}-{DateTime.Now.Day}";
+            
+            // Всего продаж (чеков)
+            cmd.CommandText = $"SELECT COUNT(*) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
+            StatTotalSales.Content = Convert.ToString(cmd.ExecuteScalar());
+
+            // Всего продаж (товаров, штук)
+            cmd.CommandText = $"SELECT SUM(S.Cnt) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
+            StatTotalProducts.Content = Convert.ToString(cmd.ExecuteScalar());
+
+            // Всего продаж (грн, деньги)
+            cmd.CommandText = $"SELECT ROUND( SUM( S.Cnt * P.Price ), 2 ) FROM Sales S JOIN Products P ON S.Id_product = P.Id WHERE CAST( S.Moment AS DATE ) = '{date}'";
+            StatTotalMoney.Content = Convert.ToString(cmd.ExecuteScalar());
+            // File.ReadAllText("")
+
+            cmd.Dispose();
+        }
+
     }
 }
+/* Д.З. Дополнить блок "Статистика за день" данными следующих категорий:
+ * Самый эффективный менеджер [Фамилия, Имя] (по деньгам)
+ * Самый эффективный отдел [Название] (по кол-ву проданных товаров)
+ * Самый популярный товар [Название] (по кол-ву чеков)
+ */

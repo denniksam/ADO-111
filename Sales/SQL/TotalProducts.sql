@@ -1,0 +1,3 @@
+﻿SELECT SUM(S.Cnt) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '2022-01-19'
+-- WHERE S.Moment >= '2022-01-19' AND S.Moment < '2022-01-20'
+-- WHERE S.Moment BETWEEN '2022-01-19' AND '2022-01-20'
