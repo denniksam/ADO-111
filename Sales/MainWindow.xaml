@@ -93,5 +93,15 @@
                    x:Name="StatTotalMoney"/>
         </Grid>
         <!-- End Daily Statistics -->
+        
+        <!-- Departments -->
+        <StackPanel Grid.Row="0" Grid.Column="1"
+            Orientation="Vertical">
+            <Label Content="Отделы" FontSize="20" FontWeight="DemiBold"
+                   HorizontalAlignment="Center"/>
+            <TextBlock x:Name="DepartmentCell"/>
+        </StackPanel>
+        <!-- End Departments -->
+        
     </Grid>
 </Window>

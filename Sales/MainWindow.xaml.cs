@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 using System.Data.SqlClient;   // Подключаем ADO для MS SQL Server (не забыть NuGet)
 using System.IO;
+using System.Data;
 
 namespace Sales
 {
@@ -24,6 +25,8 @@ namespace Sales
     public partial class MainWindow : Window
     {
         private SqlConnection _connection;  // объект-подключение к БД
+        private List<Entities.Department>? _departments;  // ORM: коллекция объектов-сущностей == таблица
+
         public MainWindow()
         {
             InitializeComponent();
@@ -53,6 +56,7 @@ namespace Sales
             ShowSalesCount();
 
             ShowDailyStatistics();
+            ShowDepartments();
         }
 
         #region Show Monitor
@@ -129,6 +133,33 @@ namespace Sales
             // File.ReadAllText("")
 
             cmd.Dispose();
+        }
+
+        /// <summary>
+        /// Заполняет блок "Отделы" - выборка всех данных из таблицы Departments
+        /// </summary>
+        private void ShowDepartments()
+        {
+            using SqlCommand cmd = new("SELECT * FROM Departments", _connection);
+            SqlDataReader reader = cmd.ExecuteReader();      // Табличный запрос - возвращает SqlDataReader
+            DepartmentCell.Text = "";                        // Передача данных происходит "построчно" - по одной строке выборки (результата)
+            while (reader.Read())                            // Вызов ExecuteReader не читает данные, только создает reader
+            {                                                // Команда reader.Read() заполняет reader
+                Guid id = reader.GetGuid("id");              // данными (строкой-выборкой) - "самозаполняется"
+                String name = (String) reader[1];            // !! возврат Read() - статус (успех/конец)
+                // double price = (double) reader["Price"];  // После чтения данные доступны
+                DepartmentCell.Text += $"{id} {name} \n";    // а) через Get-теры (GetGuid/GetString,...) с индексом
+            }                                                // б) через Get-теры с именем поля (using System.Data)
+                                                             // в) через индексатор [] c числом - индексом поля
+                                                             // г) через индексатор [] со строкой - названием поля
+            // Значение индекса начинается с 0 и соответствует
+            // порядку данных в строке-результате (в таблице)
+            // Поскольку обращение к данным идет по индексам, крайне НЕ рекомендуется
+            // оформлять запрос как SELECT * - в нем не видно порядок полей
+            // Лучше перечислять поля SELECT id, name FROM Departments
+            // reader обязательно нужно закрывать, если останется открытым, то не будут
+            // выполняться другие команды
+            reader.Dispose();
         }
 
     }
