@@ -24,8 +24,9 @@ namespace Sales
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SqlConnection _connection;  // объект-подключение к БД
+        private readonly SqlConnection _connection;  // объект-подключение к БД
         private List<Entities.Department>? _departments;  // ORM: коллекция объектов-сущностей == таблица
+        private List<Entities.Product>? _products;
 
         public MainWindow()
         {
@@ -56,7 +57,9 @@ namespace Sales
             ShowSalesCount();
 
             ShowDailyStatistics();
-            ShowDepartments();
+
+            ShowDepartmentsOrm();
+            ShowProductsOrm();
         }
 
         #region Show Monitor
@@ -162,10 +165,82 @@ namespace Sales
             reader.Dispose();
         }
 
+        /// <summary>
+        /// Заполняет блок "Отделы" - используя ORM
+        /// </summary>
+        private void ShowDepartmentsOrm()
+        {
+            if(_departments is null)  // Первое обращение - заполняем коллекцию
+            {
+                using SqlCommand cmd = 
+                    new("SELECT D.Id, D.Name FROM Departments D", _connection);
+                try
+                {
+                    using SqlDataReader reader = cmd.ExecuteReader();
+                    _departments = new();
+                    while (reader.Read())
+                    {
+                        _departments.Add(new()
+                        {
+                            Id = reader.GetGuid(0),
+                            Name = reader.GetString(1)
+                        });
+                    }
+                }
+                catch(SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
+            DepartmentCell.Text = "";
+            foreach (var department in _departments)
+            {
+                DepartmentCell.Text += department.ToShortString() + "\n";
+            }
+        }
+
+        private void ShowProductsOrm()
+        {
+            if (_products is null)  // Первое обращение - заполняем коллекцию
+            {
+                using SqlCommand cmd =
+                    new("SELECT P.Id, P.Name, P.Price FROM Products P", _connection);
+                try
+                {
+                    using SqlDataReader reader = cmd.ExecuteReader();
+                    _products = new();
+                    while (reader.Read())
+                    {
+                        _products.Add(new()
+                        {
+                            Id = reader.GetGuid(0),
+                            Name = reader.GetString(1),
+                            Price = reader.GetDouble(2)   // !! тип БД FLOAT соответствует типу C# double
+                        });
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
+            ProductsCell.Text = "";
+            foreach (var product in _products)
+            {
+                ProductsCell.Text += product.ToShortString() + "\n";
+            }
+        }
     }
 }
 /* Д.З. Дополнить блок "Статистика за день" данными следующих категорий:
  * Самый эффективный менеджер [Фамилия, Имя] (по деньгам)
  * Самый эффективный отдел [Название] (по кол-ву проданных товаров)
  * Самый популярный товар [Название] (по кол-ву чеков)
+ */
+/* Д.З. Вывести сводные данные по продажам: 
+ *   №п.п - название товара - кол-во проданных шт - сумма продажи
+ * фильтр - за "сегодня" 
+ * (можно без ORM, использовать Reader)
  */

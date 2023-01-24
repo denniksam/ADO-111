@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ORM\" />
     <Folder Include="SQL\" />
   </ItemGroup>
 

@@ -9,7 +9,12 @@ namespace Sales.Entities
     // Класс-сущность, отображающая таблицу Departments
     public class Department
     {
-        public Guid Id { get; set; }
-        public String Name { get; set; } = null!;
+        public Guid Id { get; set; }                 // Набор свойств сущности в точности
+        public String Name { get; set; } = null!;    // повторяет структуру таблицы
+
+        public String ToShortString()
+        {
+            return Id.ToString()[..4] + "... " + Name;
+        }
     }
 }

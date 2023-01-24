@@ -95,13 +95,40 @@
         <!-- End Daily Statistics -->
         
         <!-- Departments -->
-        <StackPanel Grid.Row="0" Grid.Column="1"
-            Orientation="Vertical">
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            
             <Label Content="Отделы" FontSize="20" FontWeight="DemiBold"
                    HorizontalAlignment="Center"/>
+            
             <TextBlock x:Name="DepartmentCell"/>
         </StackPanel>
         <!-- End Departments -->
-        
+
+        <!-- Products -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            
+            <Label Content="Товары" FontSize="20" FontWeight="DemiBold"
+                   HorizontalAlignment="Center"/>
+            
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          MaxHeight="180">
+                <TextBlock x:Name="ProductsCell" />
+            </ScrollViewer>            
+        </StackPanel>
+        <!-- End Products -->
+
+        <!-- Managers -->
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical">
+
+            <Label Content="Сотрудники" FontSize="20" FontWeight="DemiBold"
+                   HorizontalAlignment="Center"/>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          MaxHeight="180">
+                <TextBlock x:Name="ManagersCell" />
+            </ScrollViewer>
+        </StackPanel>
+        <!-- End Managers -->
+
     </Grid>
 </Window>
