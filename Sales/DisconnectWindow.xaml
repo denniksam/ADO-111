@@ -23,7 +23,7 @@
             <!-- Связывание. Часть 2.1. Ссылка на источник данных -->
             <ListView ItemsSource="{Binding Departments}"
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                MaxHeight="170">
+                MaxHeight="177">
                 <ListView.View>
                     <GridView>
                         <!-- Связывание. Часть 2.2. Ссылка на поля источника -->
@@ -33,6 +33,42 @@
                             Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
                     </GridView>
                 </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter
+                            Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.Resources>                
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1" Grid.Column="0">
+            <Label Content="Товары"/>
+
+            <!-- Связывание. Часть 2.1. Ссылка на источник данных -->
+            <ListView ItemsSource="{Binding Products}"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                MaxHeight="177">
+                <ListView.View>
+                    <GridView>
+                        <!-- Связывание. Часть 2.2. Ссылка на поля источника -->
+                        <GridViewColumn 
+                            Header="Id" DisplayMemberBinding="{Binding Path=Id}"/>
+                        <GridViewColumn 
+                            Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn 
+                            Header="Name" DisplayMemberBinding="{Binding Path=Price}"/>
+                    </GridView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter
+                            Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick_1"/>
+                    </Style>
+                </ListView.Resources>
             </ListView>
         </StackPanel>
     </Grid>
