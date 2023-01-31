@@ -1,0 +1,39 @@
+﻿<Window x:Class="Sales.DisconnectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sales"
+        mc:Ignorable="d"
+        Title="DisconnectWindow" Height="450" Width="800">
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="0" Grid.Column="0">
+            <Label Content="Отделы"/>
+            
+            <!-- Связывание. Часть 2.1. Ссылка на источник данных -->
+            <ListView ItemsSource="{Binding Departments}"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                MaxHeight="170">
+                <ListView.View>
+                    <GridView>
+                        <!-- Связывание. Часть 2.2. Ссылка на поля источника -->
+                        <GridViewColumn 
+                            Header="Id" DisplayMemberBinding="{Binding Path=Id}"/>
+                        <GridViewColumn 
+                            Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Window>

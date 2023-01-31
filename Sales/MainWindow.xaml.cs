@@ -31,10 +31,8 @@ namespace Sales
         public MainWindow()
         {
             InitializeComponent();
-            // строка подключения - берется из свойств БД (Server Explorer)
-            String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\_dns_\source\repos\ADO-111\Sales\Sales111.mdf;Integrated Security=True";
             // создание объекта-подключения !! не открывает подключение
-            _connection = new(connectionString);
+            _connection = new(App.ConnectionString);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -230,6 +228,14 @@ namespace Sales
             foreach (var product in _products)
             {
                 ProductsCell.Text += product.ToShortString() + "\n";
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if(_connection?.State == ConnectionState.Open)
+            {
+                _connection.Close();
             }
         }
     }

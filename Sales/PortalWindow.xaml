@@ -1,0 +1,25 @@
+﻿<Window x:Class="Sales.PortalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sales"
+        mc:Ignorable="d"
+        Title="PortalWindow" 
+        Height="800" Width="450">
+    <StackPanel Orientation="Vertical">
+        <Label HorizontalAlignment="Center"
+               FontSize="20"
+               FontWeight="DemiBold">
+            Технология ADO
+        </Label>
+        <Button
+            Content="1. Присоединенный режим"
+            Margin="10" Padding="5"
+            Click="Button_Click"/>
+        <Button
+            Content="2. Отсоединенный режим"
+            Margin="10" Padding="5"
+            Click="Button_Click_1"/>
+    </StackPanel>
+</Window>
