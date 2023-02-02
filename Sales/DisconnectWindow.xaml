@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sales"
         mc:Ignorable="d"
-        Title="DisconnectWindow" Height="450" Width="800">
+        Title="DisconnectWindow" Height="650" Width="800">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -23,7 +23,7 @@
             <!-- Связывание. Часть 2.1. Ссылка на источник данных -->
             <ListView ItemsSource="{Binding Departments}"
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                MaxHeight="177">
+                MaxHeight="257">
                 <ListView.View>
                     <GridView>
                         <!-- Связывание. Часть 2.2. Ссылка на поля источника -->
@@ -41,6 +41,10 @@
                     </Style>
                 </ListView.Resources>                
             </ListView>
+            <Button Content="Добавить отдел"
+                    x:Name="AddDepartment"
+                    Click="AddDepartment_Click"
+                    Margin="5"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical"

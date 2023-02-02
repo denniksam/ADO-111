@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -80,7 +81,33 @@ namespace Sales
                 // Обратная связь (view->model) через item.Content
                 if (item.Content is Entities.Department department)
                 {
-                    MessageBox.Show(department.ToShortString());
+                    // MessageBox.Show(department.ToShortString());
+                    CRUD.CrudDepartmentWindow window = new()
+                    {
+                        Department = department
+                    };
+                    int index = Departments.IndexOf(department);
+                    Departments.Remove(department);  // удаляем из коллекции и передаем на редактирование
+                    if (window.ShowDialog().GetValueOrDefault())
+                    {
+                        if(window.Department is null)  // удаление
+                        {
+                            /* Написать команды для БД удаляющие и изменяющие
+                             * отделы (Departments).
+                             * Реализовать вызов этих команд по соответствующим
+                             * ситуациям в программе
+                             * Перед фактом удаление добавить диалог-подтверждение
+                             */
+                        }
+                        else  // изменение
+                        {
+                            Departments.Insert(index, department);  // возвращаем, но измененный
+                        }
+                    }
+                    else  // Отмена - возвращаем в окно
+                    {
+                        Departments.Insert(index, department);
+                    }
                 }
             }
             
@@ -95,6 +122,37 @@ namespace Sales
                 {
                     MessageBox.Show(product.ToShortString());
                 }
+            }
+        }
+
+        private void AddDepartment_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new CRUD.CrudDepartmentWindow();
+
+            if(window.ShowDialog().GetValueOrDefault())
+            {
+                MessageBox.Show(window.Department.ToShortString());
+                using SqlConnection connection = new(App.ConnectionString);
+                try
+                {
+                    connection.Open();
+                    using SqlCommand cmd = new(
+                        $"INSERT INTO Departments(Id, Name) VALUES( @id, @name )", 
+                        connection);
+                    cmd.Parameters.AddWithValue("@id", window.Department.Id);
+                    cmd.Parameters.AddWithValue("@name", window.Department.Name);
+                    cmd.ExecuteNonQuery();
+
+                    Departments.Add(window.Department);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Cancel");
             }
         }
     }
