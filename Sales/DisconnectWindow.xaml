@@ -75,5 +75,38 @@
                 </ListView.Resources>
             </ListView>
         </StackPanel>
+
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="0" Grid.Column="1">
+            <Label Content="Сотрудники"/>
+
+            <!-- Связывание. Часть 2.1. Ссылка на источник данных -->
+            <ListView ItemsSource="{Binding Managers}"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                MaxHeight="177">
+                <ListView.View>
+                    <GridView>
+                        <!-- Связывание. Часть 2.2. Ссылка на поля источника -->
+                        <GridViewColumn Header="Id" 
+                            DisplayMemberBinding="{Binding Path=Id}"/>
+                        <GridViewColumn Header="Name" 
+                            DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Header="Surname" 
+                            DisplayMemberBinding="{Binding Path=Surname}"/>
+                    </GridView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter
+                            Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick_2"/>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+            <Button Content="Добавить сотрудника"
+                    x:Name="AddManager"
+                    Click="AddManager_Click"
+                    Margin="5"/>
+        </StackPanel>
     </Grid>
 </Window>

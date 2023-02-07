@@ -24,6 +24,7 @@ namespace Sales
     {
         public ObservableCollection<Entities.Department> Departments { get; set; }
         public ObservableCollection<Entities.Product> Products { get; set; }
+        public ObservableCollection<Entities.Manager> Managers { get; set; }
         public DisconnectWindow()
         {
             InitializeComponent();
@@ -66,6 +67,31 @@ namespace Sales
                     }
                 }
                 #endregion
+
+                #region Managers
+                Managers = new();
+                using SqlCommand cmd3 = new("SELECT Id, Surname, Name, Secname, Id_main_dep, Id_sec_dep, Id_chief FROM Managers", connection);
+                {
+                    using var reader = cmd3.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Managers.Add(new() 
+                        {
+                            Id = reader.GetGuid(0),
+                            Surname = reader.GetString(1),
+                            Name = reader.GetString(2),
+                            Secname = reader.GetString(3),
+                            IdMainDep = reader.GetGuid(4),
+                            IdSecDep = reader[5] == DBNull.Value   // В БД любой элемент может быть NULL
+                                        ? null                     // но в С# значимые типы не могут
+                                        : reader.GetGuid(5),       // принимать null значение
+                            IdChief = reader[6] == DBNull.Value    // Для передачи значимых типов, но опциональных
+                                        ? null                     // сначала запрашивают object, его проверяют
+                                        : reader.GetGuid(6)        // на DBNull.Value и если это не так, то
+                        });                                        // повторяют запрос со значимым Get-тером (GetGuid)
+                    }
+                }
+                #endregion
             }
             catch (Exception ex)
             {
@@ -90,18 +116,27 @@ namespace Sales
                     Departments.Remove(department);  // удаляем из коллекции и передаем на редактирование
                     if (window.ShowDialog().GetValueOrDefault())
                     {
-                        if(window.Department is null)  // удаление
+                        using SqlConnection connection = new(App.ConnectionString);
+                        try
                         {
-                            /* Написать команды для БД удаляющие и изменяющие
-                             * отделы (Departments).
-                             * Реализовать вызов этих команд по соответствующим
-                             * ситуациям в программе
-                             * Перед фактом удаление добавить диалог-подтверждение
-                             */
+                            connection.Open();
+                            using SqlCommand cmd = new() { Connection = connection };
+                            if (window.Department is null)  // удаление
+                            {
+                                cmd.CommandText = $"DELETE FROM Departments WHERE Id = '{department.Id}' ";
+                            }
+                            else  // изменение
+                            {
+                                cmd.CommandText = $"UPDATE Departments SET Name = @name WHERE Id = '{department.Id}' ";
+                                cmd.Parameters.AddWithValue("@name", department.Name);
+                                Departments.Insert(index, department);  // возвращаем, но измененный
+                            }
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("Задание выполнено успешно");
                         }
-                        else  // изменение
+                        catch (Exception ex)
                         {
-                            Departments.Insert(index, department);  // возвращаем, но измененный
+                            MessageBox.Show(ex.Message);
                         }
                     }
                     else  // Отмена - возвращаем в окно
@@ -154,6 +189,17 @@ namespace Sales
             {
                 MessageBox.Show("Cancel");
             }
+        }
+
+        private void AddManager_Click(object sender, RoutedEventArgs e)
+        {
+            CRUD.CrudManagerWindow managerWindow = new() { Owner = this };
+            managerWindow.ShowDialog();
+        }
+
+        private void ListViewItem_MouseDoubleClick_2(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

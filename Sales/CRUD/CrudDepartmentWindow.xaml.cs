@@ -46,7 +46,17 @@ namespace Sales.CRUD
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            if( MessageBoxResult.Yes ==
+                    MessageBox.Show(
+                        "Вы подтверждаете удаление отдела из БД?",
+                        "Удаление данных из БД",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question))
+            {
+                Department = null!;
+                this.DialogResult = true;
+                this.Close();
+            }            
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
