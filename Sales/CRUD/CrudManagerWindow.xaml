@@ -6,19 +6,21 @@
         xmlns:local="clr-namespace:Sales.CRUD"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="CrudManagerWindow" Height="450" Width="800">
+        Title="CrudManagerWindow" Height="450" Width="500">
     <StackPanel Orientation="Vertical">
         <Label Content="Данные о сотруднике" 
                HorizontalAlignment="Center"
                FontSize="30" FontWeight="DemiBold"/>
         
-        <Grid Margin="70 30">
+        <Grid Margin="40 30">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -53,7 +55,34 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-
+            <Label Content="Secondary:" Grid.Row="5" Grid.Column="0"
+                   FontSize="18"/>
+            <ComboBox x:Name="SecondaryCombo" 
+                      Grid.Row="5" Grid.Column="1"
+                      ItemsSource="{Binding Departments}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Chief:" Grid.Row="6" Grid.Column="0"
+                   FontSize="18"/>
+            <ComboBox x:Name="ChiefCombo" 
+                      Grid.Row="6" Grid.Column="1"
+                      ItemsSource="{Binding Managers}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Surname}" />
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding Path=Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </Grid>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
