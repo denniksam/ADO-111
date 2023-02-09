@@ -1,0 +1,14 @@
+﻿LINQ - Language Integrated Queries - создание подобия SQL запросов для 
+языковых данных - коллекций/массивов
+
+У LINQ есть две синтаксические формы с одинаковым действием
+форма "query" похожа на синтаксис SQL
+форма "method" использует функциональную парадигму
+
+запрос - возвращает все имена из коллекции (не БД) Departments
+var query = from d in Departments
+            select d.Name;
+
+То же самое, но в стиле "method"
+var query2 = Departments.Select(d => d.Name);
+

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sales"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="DisconnectWindow" Height="650" Width="800">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
@@ -108,5 +109,8 @@
                     Click="AddManager_Click"
                     Margin="5"/>
         </StackPanel>
+
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                   x:Name="textBlock1"/>
     </Grid>
 </Window>

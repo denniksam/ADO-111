@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sales.Entities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
@@ -200,6 +201,26 @@ namespace Sales
         private void ListViewItem_MouseDoubleClick_2(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // LINQ форма "query"
+            var query = from d in Departments
+                        select d.Name;
+
+            // LINQ форма "extension" / "method"
+            var query2 = Departments.Select(d => d.Name);
+
+            foreach(String name in query)
+            {
+                textBlock1.Text += name + "\n";
+            }
+            textBlock1.Text += "------------------\n";
+            foreach (String name in query2)
+            {
+                textBlock1.Text += name + "\n";
+            }
         }
     }
 }
