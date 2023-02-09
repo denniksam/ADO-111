@@ -13,6 +13,12 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical">
             <Button x:Name="Simple" Content="Simple" Margin="10" Click="Simple_Click"/>
+            <Button x:Name="ByName" Content="ByName" Margin="10" Click="ByName_Click"/>
+            <Button x:Name="ByPrice" Content="ByPrice" Margin="10" Click="ByPrice_Click"/>
+            <Button x:Name="Less200" Content="Less 200" Margin="10" Click="Less200_Click"/>
+            <Button x:Name="withG" Content="Начинается на Г" Margin="10" Click="withG_Click"/>
+            <Button x:Name="withOV" Content="Содержит ов" Margin="10" Click="withOV_Click"/>
+            <Button x:Name="join" Content="Объединение" Margin="10" Click="join_Click"/>
         </StackPanel>
         <TextBlock Grid.Column="1" x:Name="textBlock1"/>
     </Grid>
