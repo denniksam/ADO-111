@@ -19,9 +19,28 @@ namespace Sales
     /// </summary>
     public partial class LinqWindow : Window
     {
+        private LinqContext.DataContext context;
         public LinqWindow()
         {
             InitializeComponent();
+            try
+            {
+                context = new(App.ConnectionString);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Simple_Click(object sender, RoutedEventArgs e)
+        {
+            var query = context.Products.OrderBy(p => p.Price);
+            textBlock1.Text = "";
+            foreach(var item in query)
+            {
+                textBlock1.Text += item.Price + " " + item.Name + "\n";
+            }
         }
     }
 }
