@@ -205,22 +205,14 @@ namespace Sales
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // LINQ форма "query"
-            var query = from d in Departments
-                        select d.Name;
+            var man = Managers[3];
+            
+            var dep1 = Departments.FirstOrDefault(d => d.Id == man.IdMainDep);
+            var dep2 = Departments.FirstOrDefault(d => d.Id == man.IdSecDep);
 
-            // LINQ форма "extension" / "method"
-            var query2 = Departments.Select(d => d.Name);
-
-            foreach(String name in query)
-            {
-                textBlock1.Text += name + "\n";
-            }
-            textBlock1.Text += "------------------\n";
-            foreach (String name in query2)
-            {
-                textBlock1.Text += name + "\n";
-            }
+            
+            textBlock1.Text += man.Name + " " + dep1.Name + " " + 
+                (dep2?.Name ?? "--") + "\n";
         }
     }
 }

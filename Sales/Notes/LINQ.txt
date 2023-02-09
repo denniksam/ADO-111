@@ -5,10 +5,27 @@
 форма "query" похожа на синтаксис SQL
 форма "method" использует функциональную парадигму
 
-запрос - возвращает все имена из коллекции (не БД) Departments
+запрос на возврат всех имен из коллекции (не БД) Departments
 var query = from d in Departments
             select d.Name;
 
 То же самое, но в стиле "method"
 var query2 = Departments.Select(d => d.Name);
 
+LINQ запросы создают правила (итераторы) но сразу не выполняются.
+Для их активации нужно создать цикл или вызвать агрегатор ( Count() и т.п. )
+
+Guid id = Guid.Parse("D3C376E4-BCE3-4D85-ABA4-E3CF49612C94");
+var query = from d in Departments        | var query2 = Departments
+            where d.Id == id             |                .Where(d => d.Id == id)
+            select d.Name;               |                .Select(d => d.Name);
+
+Единичные выборки: найти отдел с заданным Id
+var dep = Departments.FirstOrDefault(d => d.Id == id);
+
+--------------- LINQ-to-SQL -------------------
+ORM система, упрощающая работу с БД и сводящая ее к языковым выражениям Linq
+Для нее создаются собственные Entities, содержащие необходимые атрибуты
+Также для коллекций предусмотренные собственные типы, набор всех 
+коллекций данных называют контекстом
+Технология снята с поддержки

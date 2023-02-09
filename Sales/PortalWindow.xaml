@@ -15,11 +15,18 @@
         </Label>
         <Button
             Content="1. Присоединенный режим"
-            Margin="10" Padding="5"
+            HorizontalContentAlignment="Left"
+            Margin="10" Padding="20 5" FontSize="16"
             Click="Button_Click"/>
         <Button
             Content="2. Отсоединенный режим"
-            Margin="10" Padding="5"
+            HorizontalContentAlignment="Left"
+            Margin="10" Padding="20 5" FontSize="16"
             Click="Button_Click_1"/>
+        <Button
+            Content="3. LINQ-to-SQL (Deprecated)"
+            HorizontalContentAlignment="Left"
+            Margin="10" Padding="20 5" FontSize="16"
+            Click="Button_Click_2"/>
     </StackPanel>
 </Window>
