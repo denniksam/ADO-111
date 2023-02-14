@@ -28,5 +28,10 @@
             HorizontalContentAlignment="Left"
             Margin="10" Padding="20 5" FontSize="16"
             Click="Button_Click_2"/>
+        <Button
+            Content="4. Entity Framework Core"
+            HorizontalContentAlignment="Left"
+            Margin="10" Padding="20 5" FontSize="16"
+            Click="Button_Click_3"/>
     </StackPanel>
 </Window>

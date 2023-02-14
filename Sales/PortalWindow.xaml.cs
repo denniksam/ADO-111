@@ -44,5 +44,12 @@ namespace Sales
             new LinqWindow().ShowDialog();
             this.Show();
         }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new EfWindow().ShowDialog();
+            this.Show();
+        }
     }
 }
