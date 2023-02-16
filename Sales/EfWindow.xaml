@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sales"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="EfWindow" Height="450" Width="800">
-    <Grid>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- Monitor -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                   Content="Монитор" FontSize="20" FontWeight="DemiBold"
+                   HorizontalAlignment="Center"/>
+            <Label Grid.Column="0" Grid.Row="1"
+                   Content="Подключение" />
+            <Label Grid.Column="1" Grid.Row="1"
+                   x:Name="MonitorConnection"/>
+            <Label Grid.Column="0" Grid.Row="2"
+                   Content="Отделов" />
+            <Label Grid.Column="1" Grid.Row="2"
+                   x:Name="MonitorDepartments"/>
+            <Label Grid.Column="0" Grid.Row="3"
+                   Content="Товаров" />
+            <Label Grid.Column="1" Grid.Row="3"
+                   x:Name="MonitorProducts"/>
+            <Label Grid.Column="0" Grid.Row="4"
+                   Content="Сотрудников" />
+            <Label Grid.Column="1" Grid.Row="4"
+                   x:Name="MonitorManagers"/>
+            <Label Grid.Column="0" Grid.Row="5"
+                   Content="Продаж" />
+            <Label Grid.Column="1" Grid.Row="5"
+                   x:Name="MonitorSales"/>
+        </Grid>
+        <!-- End Monitor -->
         
     </Grid>
 </Window>

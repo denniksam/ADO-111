@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sales.EfContext;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,17 @@ namespace Sales
     /// </summary>
     public partial class EfWindow : Window
     {
+        public EfContext.DataContext dataContext;
         public EfWindow()
         {
             InitializeComponent();
+            dataContext = new();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MonitorDepartments.Content =
+                dataContext.Departments.Count();
         }
     }
 }
