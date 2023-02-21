@@ -63,7 +63,7 @@
         </Grid>
         <!-- End Monitor -->
 
-        <!-- Dily Stat -->
+        <!-- Daily Stat -->
         <Grid Grid.Column="0" Grid.Row="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
@@ -106,5 +106,9 @@
             <Label Grid.Column="1" Grid.Row="6"
                    x:Name="SalesTopDepartment"/>
         </Grid>
+        <!-- End Daily Stat -->
+
+        <Label Grid.Row="0" Grid.Column="1" x:Name="label1"/>
+        
     </Grid>
 </Window>

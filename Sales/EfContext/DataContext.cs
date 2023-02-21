@@ -26,6 +26,23 @@ namespace Sales.EfContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // ручная настройка отношения один-к-многим на примере
+            //  сотрудник - отдел
+            modelBuilder.Entity<Manager>()         // В классе Manager
+                .HasOne(m => m.MainDep)            // есть свойство с типом Department: MainDep
+                .WithMany(d => d.Managers)         // а в классе Department - List Managers
+                .HasForeignKey(m => m.IdMainDep);  // при этом их связь через ключ IdMainDep
+
+            modelBuilder.Entity<Manager>()
+                .HasOne(m => m.SecDep)
+                .WithMany(d => d.PartWorkers)
+                .HasForeignKey(m => m.IdSecDep);
+
+            modelBuilder.Entity<Manager>()
+                .HasOne(m => m.Chief)
+                .WithMany(m => m.Subordinates)
+                .HasForeignKey(m => m.IdChief);
+
             // управление созданием и сидированием (начальным заполнением)
             SeedDepartments(modelBuilder);
             SeedProducts(modelBuilder);

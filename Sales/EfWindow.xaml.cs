@@ -1,4 +1,5 @@
-﻿using Sales.EfContext;
+﻿using Microsoft.EntityFrameworkCore;
+using Sales.EfContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace Sales
                 dataContext.Sales.Count();
 
             ShowDailyStatistics();
+            NavProperties();
         }
 
         private void ShowDailyStatistics()
@@ -158,6 +160,26 @@ namespace Sales
 
             MonitorSales.Content = dataContext.Sales.Count();
             ShowDailyStatistics();
+        }
+
+        private void NavProperties()
+        {
+            var man = dataContext.Managers
+                .Include(m => m.MainDep)
+                .Include(m => m.Chief)
+                .Include(m => m.Subordinates)
+                .Skip(1)
+                .First();
+            label1.Content = man.Surname + " " + man.MainDep.Name + " " + man.SecDep.Name;
+
+            var dep = dataContext.Departments.Include(d => d.Managers).Skip(1).First();
+            label1.Content += "\n" + dep.Name 
+                + "  " + dep.Managers.Count() + " mans"
+                + ", " + dep.PartWorkers.Count() + " parts";
+
+            label1.Content += "\n" 
+                + (man.Chief?.Name ?? "--") + " " 
+                + man.Subordinates.Count() + " subs";
         }
     }
 }
