@@ -9,9 +9,10 @@
         Title="EfWindow" Height="450" Width="800">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="81*" />
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="89*" />
+            <ColumnDefinition Width="89*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -19,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <!-- Monitor -->
-        <Grid>
+        <Grid Grid.ColumnSpan="3" Margin="0,0,266,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -59,12 +60,12 @@
                         Click="AddSalesButton_Click"/>
                 <Label x:Name="MonitorSales"/>
             </DockPanel>
-            
+
         </Grid>
         <!-- End Monitor -->
 
         <!-- Daily Stat -->
-        <Grid Grid.Column="0" Grid.Row="1" >
+        <Grid Grid.Column="0" Grid.ColumnSpan="3" Margin="0,217,266,0" Grid.RowSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="4*"/>
@@ -108,7 +109,7 @@
         </Grid>
         <!-- End Daily Stat -->
 
-        <Label Grid.Row="0" Grid.Column="1" x:Name="label1"/>
-        
+        <Label Grid.Row="0" Grid.Column="2" x:Name="label1"/>
+
     </Grid>
 </Window>

@@ -170,6 +170,7 @@ namespace Sales
                 .Include(m => m.Subordinates)
                 .Skip(1)
                 .First();
+
             label1.Content = man.Surname + " " + man.MainDep.Name + " " + man.SecDep.Name;
 
             var dep = dataContext.Departments.Include(d => d.Managers).Skip(1).First();
@@ -178,10 +179,13 @@ namespace Sales
                 + ", " + dep.PartWorkers.Count() + " parts";
 
             label1.Content += "\n" 
-                + (man.Chief?.Name ?? "--") + " " 
+                + (man.Chief?.Surname ?? "--") + " " 
                 + man.Subordinates.Count() + " subs";
         }
     }
 }
-// Средствами EntityFramework/LINQ определить Лучший по продажам отдел за "сегодня"
-// а) по кол-ву продаж, б) по сумме продаж
+/* Вывести "таблицы" 
+ *  - Название отдела - кол-во основных сотрудников - кол-во совместителей
+ *  - ФИО сотрудника - ФИО начальника/--  - кол-во подчиненных
+ *  - ФИО сотрудника - Основной отдел - отдел по совместительству/--
+ */
