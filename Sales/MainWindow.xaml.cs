@@ -197,7 +197,8 @@ namespace Sales
                 }
                 catch(SqlException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    // MessageBox.Show(ex.Message);
+                    App.Logger.Log(ex.Message, Logging.LogLevel.Warn, this.GetType().Name, System.Reflection.MethodInfo.GetCurrentMethod()?.Name ?? "", cmd.CommandText);
                     return;
                 }
             }
@@ -230,7 +231,8 @@ namespace Sales
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    // MessageBox.Show(ex.Message);
+                    App.Logger.Log(ex.Message, Logging.LogLevel.Warn, this.GetType().Name, System.Reflection.MethodInfo.GetCurrentMethod()?.Name ?? "", cmd.CommandText);
                     return;
                 }
             }

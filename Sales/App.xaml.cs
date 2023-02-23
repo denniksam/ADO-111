@@ -17,6 +17,6 @@ namespace Sales
         // строка подключения - берется из свойств БД (Server Explorer)
         public const String ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\_dns_\source\repos\ADO-111\Sales\Sales111.mdf;Integrated Security=True";
         public static readonly Random random = new();
-        internal static readonly ILogger Logger = new FileLogger();
+        internal static readonly ILogger Logger = new DbLogger(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\_dns_\source\repos\ADO-111\Sales\logging_db.mdf;Integrated Security=True"); // new FileLogger();
     }
 }
