@@ -1,0 +1,2 @@
+23.02.2023 17:39:28 | Error | Invalid object name 'Sales1'. | MainWindow.ShowDailyStatistics
+23.02.2023 17:52:43 | Error | Invalid object name 'Sales1'. | MainWindow.ShowDailyStatistics | SELECT COUNT(*) FROM Sales1 S WHERE CAST( S.Moment AS DATE ) = '2022-2-23'

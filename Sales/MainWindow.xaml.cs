@@ -113,26 +113,36 @@ namespace Sales
         /// </summary>
         private void ShowDailyStatistics()
         {
-            SqlCommand cmd = new()
+            SqlCommand cmd = new() { Connection = _connection };
+            try
             {
-                Connection = _connection
-            };
-            // В БД информация за 2022 год, поэтому формируем дату с текущим днем и месяцем, но за 2022 год
-            String date = $"2022-{DateTime.Now.Month}-{DateTime.Now.Day}";
-            
-            // Всего продаж (чеков)
-            cmd.CommandText = $"SELECT COUNT(*) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
-            StatTotalSales.Content = Convert.ToString(cmd.ExecuteScalar());
+                // В БД информация за 2022 год, поэтому формируем дату с текущим днем и месяцем, но за 2022 год
+                String date = $"2022-{DateTime.Now.Month}-{DateTime.Now.Day}";
 
-            // Всего продаж (товаров, штук)
-            cmd.CommandText = $"SELECT SUM(S.Cnt) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
-            StatTotalProducts.Content = Convert.ToString(cmd.ExecuteScalar());
+                // Всего продаж (чеков)
+                cmd.CommandText = $"SELECT COUNT(*) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
+                StatTotalSales.Content = Convert.ToString(cmd.ExecuteScalar());
 
-            // Всего продаж (грн, деньги)
-            cmd.CommandText = $"SELECT ROUND( SUM( S.Cnt * P.Price ), 2 ) FROM Sales S JOIN Products P ON S.Id_product = P.Id WHERE CAST( S.Moment AS DATE ) = '{date}'";
-            StatTotalMoney.Content = Convert.ToString(cmd.ExecuteScalar());
-            // File.ReadAllText("")
+                // Всего продаж (товаров, штук)
+                cmd.CommandText = $"SELECT SUM(S.Cnt) FROM Sales S WHERE CAST( S.Moment AS DATE ) = '{date}'";
+                StatTotalProducts.Content = Convert.ToString(cmd.ExecuteScalar());
 
+                // Всего продаж (грн, деньги)
+                cmd.CommandText = $"SELECT ROUND( SUM( S.Cnt * P.Price ), 2 ) FROM Sales S JOIN Products P ON S.Id_product = P.Id WHERE CAST( S.Moment AS DATE ) = '{date}'";
+                StatTotalMoney.Content = Convert.ToString(cmd.ExecuteScalar());
+                // File.ReadAllText("")
+            }
+            catch(Exception ex)
+            {
+                App.Logger.Log(ex.Message, 
+                    Logging.LogLevel.Error,
+                    this.GetType().Name,
+                    System.Reflection.MethodInfo.GetCurrentMethod()?.Name ?? "",
+                    cmd.CommandText);
+                StatTotalSales.Content = "--";
+                StatTotalProducts.Content = "--";
+                StatTotalMoney.Content = "--";
+            }
             cmd.Dispose();
         }
 

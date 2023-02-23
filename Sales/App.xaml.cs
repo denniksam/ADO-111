@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sales.Logging;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,5 +17,6 @@ namespace Sales
         // строка подключения - берется из свойств БД (Server Explorer)
         public const String ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\_dns_\source\repos\ADO-111\Sales\Sales111.mdf;Integrated Security=True";
         public static readonly Random random = new();
+        internal static readonly ILogger Logger = new FileLogger();
     }
 }
